@@ -24,8 +24,8 @@
 
 This repository contains two complementary Python scripts designed to perform advanced blockchain transaction analysis:
 
-- **`advanced_analyzer_streamlit.py`**: A user-friendly **Streamlit** application that helps visualize Ethereum transactions, detect interactions with known mixers or exchanges, and produce risk metrics and interactive transaction flow graphs.
-- **`advanced_analyzer_cli.py`**: A command-line tool (CLI) supporting both **Bitcoin** and **Ethereum**. It builds a transaction graph by recursively analyzing inputs/outputs of each transaction to a specified depth and visualizes it using **pyvis**.
+- **`crypto_tracker_v7.py`**: A user-friendly **Streamlit** application that helps visualize Ethereum transactions, detect interactions with known mixers or exchanges, and produce risk metrics and interactive transaction flow graphs.
+- **`crypto_tracker_v3.py`**: A command-line tool (CLI) supporting both **Bitcoin** and **Ethereum**. It builds a transaction graph by recursively analyzing inputs/outputs of each transaction to a specified depth and visualizes it using **pyvis**.
 
 Both scripts enable you to:
 
@@ -57,8 +57,8 @@ Both scripts enable you to:
 
 ```plaintext
 .
-├── advanced_analyzer_streamlit.py  # The Streamlit-based app
-├── advanced_analyzer_cli.py        # The CLI-based analyzer
+├── crypto_tracker_v7.py  # The Streamlit-based app
+├── crypto_tracker_v3.py        # The CLI-based analyzer
 ├── requirements.txt                # Dependencies file (optional)
 ├── README.md                       # This README documentation
 └── ...
@@ -91,7 +91,7 @@ For Bitcoin-specific functionality (in the CLI script), BlockCypher is used (no 
 
 - **Clone the repository:**
   
-  ```bash
+```bash
 git clone https://github.com/arknet-cyber/eth-crypto-tracker.git
 cd eth-crypto-tracker
 ```
@@ -110,6 +110,7 @@ pip install streamlit requests pandas plotly networkx pyvis
 (Optional) Configure your environment variables or create a .env file if you want to store your Etherscan API key securely. The Streamlit app also allows you to input your API key directly in the sidebar.
 
 ---
+
 ## 6. Usage
 
 Below are detailed instructions on how to run each script in this repository.
@@ -123,9 +124,11 @@ Below are detailed instructions on how to run each script in this repository.
 - **Purpose**: Analyze and visualize Ethereum addresses in a web-based dashboard.
 
 - **How to run**:
-  ```bash
+
+```bash
   streamlit run advanced_analyzer_streamlit.py
 ```
+
 ### How to use:
 
 1. After running the command, a local URL will appear in your terminal (e.g., `http://localhost:8501`).
@@ -144,9 +147,11 @@ Below are detailed instructions on how to run each script in this repository.
 - **Purpose**: Perform a recursive analysis of addresses (Bitcoin or Ethereum) via CLI, build a transaction graph, and generate an **HTML** output for interactive visualization.
 
 - **Basic Syntax**:
-  ```bash
+
+```bash
   python advanced_analyzer_cli.py <address> --crypto <btc|eth> --depth <int> [--api-key <KEY>]
 ```
+
 **Key Arguments**:
 
 - `address`: The blockchain address you want to analyze.  
@@ -159,11 +164,15 @@ Below are detailed instructions on how to run each script in this repository.
 #### Example Commands
 
 1. **Analyze a BTC address with default depth of 2**:
-   ```bash
+
+```bash
    python advanced_analyzer_cli.py 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
-2. **Analyze an ETH address with depth 3 using an Etherscan API key**:
+
+1. **Analyze an ETH address with depth 3 using an Etherscan API key**:
+
 ```bash
 python advanced_analyzer_cli.py 0x1234567890abcdef1234567890abcdef12345678 --crypto eth --depth 3 --api-key YOUR_KEY_HERE
 ```
+
 The CLI will create a file named transaction_graph.html containing an interactive visualization of the transaction flow.
