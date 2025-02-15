@@ -1,8 +1,5 @@
 # Advanced Crypto Investigation Suite
 
-**Author:** Your Name  
-**Date:** 2023
-
 ## Table of Contents
 
 - [Advanced Crypto Investigation Suite](#advanced-crypto-investigation-suite)
