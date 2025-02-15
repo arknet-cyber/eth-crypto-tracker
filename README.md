@@ -116,14 +116,14 @@ Below are detailed instructions on how to run each script in this repository.
 
 ### 1) Interactive Streamlit App
 
-**File:** `advanced_analyzer_streamlit.py`
+**File:** `crypto_tracker_v7.py`
 
 - **Purpose**: Analyze and visualize Ethereum addresses in a web-based dashboard.
 
 - **How to run**:
 
 ```bash
-  streamlit run advanced_analyzer_streamlit.py
+  streamlit run crypto_tracker_v7.py
 ```
 
 ### How to use:
@@ -139,14 +139,14 @@ Below are detailed instructions on how to run each script in this repository.
 
 ### 2) Command-Line Tool
 
-**File:** `advanced_analyzer_cli.py`
+**File:** `crypto_tracker_v3.py`
 
 - **Purpose**: Perform a recursive analysis of addresses (Bitcoin or Ethereum) via CLI, build a transaction graph, and generate an **HTML** output for interactive visualization.
 
 - **Basic Syntax**:
 
 ```bash
-  python advanced_analyzer_cli.py <address> --crypto <btc|eth> --depth <int> [--api-key <KEY>]
+  python crypto_tracker_v3.py <address> --crypto <btc|eth> --depth <int> [--api-key <KEY>]
 ```
 
 **Key Arguments**:
@@ -163,13 +163,13 @@ Below are detailed instructions on how to run each script in this repository.
 1. **Analyze a BTC address with default depth of 2**:
 
 ```bash
-   python advanced_analyzer_cli.py 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+   python crypto_tracker_v3.py 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
 
 1. **Analyze an ETH address with depth 3 using an Etherscan API key**:
 
 ```bash
-python advanced_analyzer_cli.py 0x1234567890abcdef1234567890abcdef12345678 --crypto eth --depth 3 --api-key YOUR_KEY_HERE
+python crypto_tracker_v3.py 0x1234567890abcdef1234567890abcdef12345678 --crypto eth --depth 3 --api-key YOUR_KEY_HERE
 ```
 
 The CLI will create a file named transaction_graph.html containing an interactive visualization of the transaction flow.
