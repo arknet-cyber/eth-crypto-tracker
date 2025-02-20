@@ -7,9 +7,9 @@ import networkx as nx
 from pyvis.network import Network
 
 # Configuration
-API_KEY = "K94JA6NRE2VX1UM1U7FJYTZ8UIBNN1DEWF"
+API_KEY = "Etherscan_API"
 
-# Updated list of mixer addresses (verified as of 2023)
+# Updated list of mixer addresses (verified as of 2025)
 MIXER_ADDRESSES = [
     # Tornado Cash (Sanctioned)
     "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc",  # 0.1 ETH
@@ -19,11 +19,46 @@ MIXER_ADDRESSES = [
     "0x23773E65ed146A459791799d01336DB287f25334",  # DAI
     "0x722122dF12D4e14e13Ac3b6895a86e84145b6967",  # USDC
     
+    # Additional Tornado Cash sanctioned addresses
+    "0x8589427373D6D84E98730D7795D8f6f8731FDA16",
+    "0xDD4c48C0B24039969fC16D1cdF626eaB821d3384",
+    "0xd90e2f925DA726b50C4Ed8D0Fb90Ad053324F31b",
+    "0xd96f2B1c14Db8458374d9Aca76E26c3D18364307",
+    "0x4736dCf1b7A3d580672CcE6E7c65cd5cc9cFBa9D",
+    "0xD4B88Df4D29F5CedD6857912842cff3b20C8Cfa3",
+    "0xFD8610d20aA15b7B2E3Be39B396a1bC3516c7144",
+    "0xF60dD140cFf0706bAE9Cd734Ac3ae76AD9eBC32A",
+    "0x22aaA7720ddd5388A3c0A3333430953C68f1849b",
+    "0xBA214C1c1928a32Bffe790263E38B4Af9bFCD659",
+    "0xb1C8094B234DcE6e03f10a5b673c1d8C69739A00",
+    "0x527653eA119F3E6a1F5BD18fbF4714081D7B31ce",
+    "0x58E8dCC13BE9780fC42E8723D8EaD4CF46943dF2",
+    "0xD691F27f38B395864Ea86CfC7253969B409c362d",
+    "0xaEaaC358560e11f52454D997AAFF2c5731B6f8a6",
+    "0x1356c899D8C9467C7f71C195612F8A395aBf2f0a",
+    "0xA60C772958a3eD56c1F15dD055bA37AC8e523a0D",
+    "0x169AD27A470D064DEDE56a2D3ff727986b15D52B",
+    "0x0836222F2B2B24A3F36f98668Ed8F0B38D1a872f",
+    "0xF67721A2D8F736E75a49FdD7FAd2e31D8676542a",
+    "0x9AD122c22B14202B4490eDAf288FDb3C7cb3ff5E",
+    "0x905b63Fff465B9fFBF41DeA908CEb12478ec7601",
+    "0x07687e702b410Fa43f4cB4Af7FA097918ffD2730",
+    "0x94A1B5CdB22c43faab4AbEb5c74999895464Ddaf",
+    "0xb541fc07bC7619fD4062A54d96268525cBC6FfEF",
+    "0xD21be7248e0197Ee08E0c20D4a96DEBdaC3D20Af",
+    "0x610B717796ad172B316836AC95a2ffad065CeaB4",
+    "0x178169B423a011fff22B9e3F3abeA13414dDD0F1",
+    "0xbB93e510BbCD0B7beb5A853875f9eC60275CF498",
+    "0x2717c5e28cf931547B621a5dddb772Ab6A35B701",
+    "0x03893a7c7463AE47D46bc7f091665f1893656003",
+    "0xCa0840578f57fE71599D29375e16783424023357",
+    
     # Other Mixers
     "0x94Be88213a387E992Dd87DE56950a9aef34b9448",  # Blender.io (Sanctioned)
     "0x8576acc5c05d6ce88f4e49bf65bdf0c62f91353c",  # ChipMixer
     "0x538Ab2E4eF7C6aC90bC4684890927fBDF069A5A5",  # Wasabi Wallet
 ]
+
 
 # Major exchange hot wallet addresses
 EXCHANGE_ADDRESSES = [
@@ -235,7 +270,7 @@ class GraphVisualizer:
 
 def main():
     st.set_page_config(page_title="Advanced Crypto Analyzer", layout="wide")
-    st.title("🕵️♂️ Advanced Crypto Transaction Investigator")
+    st.title("🕵️‍♂️ Advanced Crypto Transaction Investigator")
     
     # Sidebar controls
     with st.sidebar:
@@ -251,7 +286,7 @@ def main():
         st.code(f"{len(EXCHANGE_ADDRESSES)} major platforms")
 
     if update_btn and address and api_key:
-        with st.spinner("🕵️♂️ Investigating blockchain activity..."):
+        with st.spinner("🕵️‍♂️ Investigating blockchain activity..."):
             transactions = get_transactions(address)
             
         if not transactions:
@@ -271,17 +306,23 @@ def main():
         # Visualization Section
         st.subheader("📈 Transaction Pattern Analysis")
         
-        # Timeline Chart
-        fig1 = px.timeline(df, 
-                          x_start="timestamp", 
-                          x_end="timestamp",
-                          y="value_eth",
-                          color_discrete_sequence=['#FF4B4B'],
-                          title="Transaction Value Timeline",
-                          labels={"value_eth": "ETH Value", "timestamp": "Date"},
-                          height=400)
-        st.plotly_chart(fig1, use_container_width=True)
-        
+        # ✅ **Fixed Timeline Chart**
+        if not df.empty:
+            df['timestamp'] = pd.to_datetime(df['timestamp'])  # Ensure timestamp is in correct format
+
+            fig1 = px.scatter(df, 
+                              x="timestamp", 
+                              y="value_eth",
+                              title="Transaction Value Over Time",
+                              labels={"value_eth": "ETH Value", "timestamp": "Date"},
+                              color_discrete_sequence=['#FF4B4B'],
+                              hover_data=["hash", "from", "to"],
+                              height=400)
+
+            st.plotly_chart(fig1, use_container_width=True)
+        else:
+            st.warning("No transactions found to display in timeline.")
+
         # Risk Distribution Chart
         fig2 = px.pie(names=['Regular', 'Exchange', 'Mixer'], 
                      values=[len(df)-len(exchange_txs)-len(mixer_txs), 
